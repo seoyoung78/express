@@ -1,0 +1,76 @@
+{% include "common/header.html" %}
+
+<div class="card">
+    <div class="card-header">
+        exam02_bind_if_for
+    </div>
+
+    <div class="card-body">     
+        <!-- 단일값 바인딩 -->
+        <div>사용자: {{userId}}</div>
+
+        <!-- 객체 바인딩 -->
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>bno</th>
+                    <th>btitle</th>
+                    <th>bcontent</th>
+                    <th>bwriter</th>
+                    <th>bdate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{board.bno}}</td>
+                    <td>{{board.btitle}}</td>
+                    <td>{{board.bcontent}}</td>
+                    <td>{{board.bwriter}}</td>
+                    <td>{{board.bdate}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 조건문 -->
+        {% if(userId == null) %}
+            <button class="btn btn-sm btn-success">로그인</button>
+        {% else %}
+            <button class="btn btn-sm btn-success">로그아웃</button>
+        {% endif %}
+
+        <!-- 반복문 -->
+        <div class="mt-3">
+            {% for b in boards %}      
+                {% if loop.first %}   
+                <span>게비물 수: {{loop.length}}</span>  
+                <table class="table mt-3">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>bno</th>
+                            <th>btitle</th>
+                            <th>bcontent</th>
+                            <th>bwriter</th>
+                            <th>bdate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                {% endif %}
+                <tr>
+                    <td>{{loop.index0}}</td>
+                    <td>{{b.bno}}</td>
+                    <td>{{b.btitle}}</td>
+                    <td>{{b.bcontent}}</td>
+                    <td>{{b.bwriter}}</td>
+                    <td>{{b.bdate.toLocaleDateString()}}</td>
+                </tr>                
+                {% if loop.last %}
+                    </tbody>
+                </table>
+                {% endif %}
+            {% endfor %}       
+        </div>     
+    </div>
+</div>
+
+{% include "common/footer.html" %}

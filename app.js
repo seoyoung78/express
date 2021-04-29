@@ -6,6 +6,9 @@ const dotenv = require("dotenv");
 
 //라우터 가져오기
 const exam01Home = require("./routes/exam01-home");
+const exam02BindIfFor = require("./routes/exam02-bind-if-for");
+const exam03Include = require("./routes/exam03-include");
+const exam04ExtendsBlock = require("./routes/exam04-extends-block");
 
 //.env 파일을 읽어서 process.env에 추가
 dotenv.config();
@@ -35,6 +38,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //요청 경로와 라우터 매핑
 app.use("/", exam01Home);
+app.use("/exam02", exam02BindIfFor);
+app.use("/exam03", exam03Include);
+app.use("/exam04", exam04ExtendsBlock);
 
 //애플리케이션 실행
 app.listen(app.get("port"), () => {
