@@ -44,6 +44,8 @@ router.get("/download", (req, res, next) => {
   const fileSavePath = process.env.UPLOAD_PATH + req.query.flieSaveName;
   console.log(process.env.UPLOAD_PATH);
   console.log(req.query.flieSaveName);
+  console.log(fileOrigianlName);
+  console.log(fileSavePath);
   res.download(fileSavePath, fileOrigianlName);
 });
 
