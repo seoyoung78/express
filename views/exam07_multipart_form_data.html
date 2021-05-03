@@ -1,0 +1,140 @@
+{% include "common/header.html" %}
+
+<div class="card">
+  <div class="card-header">
+    exam07_multipart_form_data
+  </div>
+
+  <div class="card-body">
+    <!-- 싱글 파일 -->
+    <div class="alert alert-primary">싱글 파일</div>
+    <form method="post" action="/exam07/upload1" enctype="multipart/form-data">
+      <div class="form-group">
+          <label>제목:</label>
+          <input class="form-control" name="btitle"/>
+      </div>
+      <div class="form-group">
+          <label>내용:</label>
+          <textarea class="form-control" name="bcontent"></textarea>
+      </div>
+      <div class="form-group">
+          <label>첨부:</label>
+          <input type="file" class="form-control-file" name="battach"/>
+      </div>
+      <button class="btn btn-primary btn-sm">올리기</button>     
+    </form>
+    <!-- 복수 파일(name이 같음) -->
+    <div class="alert alert-primary mt-3">복수 파일(name이 같음)</div>
+    <form method="post" action="/exam07/upload2" enctype="multipart/form-data">
+      <div class="form-group">
+          <label>제목:</label>
+          <input class="form-control" name="btitle"/>
+      </div>
+      <div class="form-group">
+          <label>내용:</label>
+          <textarea class="form-control" name="bcontent"></textarea>
+      </div>
+      <div class="form-group">
+          <label>첨부:</label>
+          <input type="file" class="form-control-file" name="battach" multiple/>
+      </div>
+      <button class="btn btn-primary btn-sm">올리기</button>     
+    </form>  
+    <!-- 복수 파일(name이 다름) -->
+    <div class="alert alert-primary mt-3">복수 파일(name이 다름)</div>
+    <form method="post" action="/exam07/upload3" enctype="multipart/form-data">
+      <div class="form-group">
+          <label>제목:</label>
+          <input class="form-control" name="btitle"/>
+      </div>
+      <div class="form-group">
+          <label>내용:</label>
+          <textarea class="form-control" name="bcontent"></textarea>
+      </div>
+      <div class="form-group">
+          <label>첨부:</label>
+          <input type="file" class="form-control-file" name="battach1"/>
+          <input type="file" class="form-control-file" name="battach2"/>
+      </div>
+      <button class="btn btn-primary btn-sm">올리기</button>     
+    </form>
+    <!-- 복수 파일(AJAX) -->
+    <div class="alert alert-primary mt-3">복수 파일(AJAX)</div>
+    <form name="createBoardForm">
+      <div class="form-group">
+          <label>제목:</label>
+          <input class="form-control" name="btitle"/>
+      </div>
+      <div class="form-group">
+          <label>내용:</label>
+          <textarea class="form-control" name="bcontent"></textarea>
+      </div>
+      <div class="form-group">
+          <label>첨부:</label>
+          <input type="file" class="form-control-file" id="battach1" name="battach1"/>
+          <input type="file" class="form-control-file" id="battach2" name="battach2"/>
+      </div>
+      <input type="button" class="btn btn-primary btn-sm" onclick="uploadByAjax1()" value="올리기(name이 같을 경우)"/>   
+      <input type="button" class="btn btn-primary btn-sm" onclick="uploadByAjax2()" value="올리기(name이 다를 경우)"/>   
+      <div id="downloadDiv" class="mt-3 alert alert-success"></div>
+    </form>
+    <script>
+      function uploadByAjax1() {
+        const formData = new FormData();
+        formData.append("btitle", document.createBoardForm.btitle.value);
+        formData.append("bcontent", document.createBoardForm.bcontent.value);
+        formData.append("battach", document.createBoardForm.battach1.files[0]);
+        formData.append("battach", document.createBoardForm.battach2.files[0]);
+        $.ajax({
+          url: "exam07/upload4",
+          method: "post",
+          cache: false,
+          processData: false,
+          contentType: false,
+          data: formData
+        }).done(data => {
+          console.log(data);
+          insertDownloadLink1(data);
+        });
+      };
+
+      function uploadByAjax2() {
+        const formData = new FormData();
+        formData.append("btitle", document.createBoardForm.btitle.value);
+        formData.append("bcontent", document.createBoardForm.bcontent.value);
+        formData.append("battach1", document.createBoardForm.battach1.files[0]);
+        formData.append("battach2", document.createBoardForm.battach2.files[0]);
+        $.ajax({
+          url: "exam07/upload5",
+          method: "post",
+          cache: false,
+          processData: false,
+          contentType: false,
+          data: formData
+        }).done(data => {
+          console.log(data);
+          insertDownloadLink2(data);
+        });
+      };
+
+      function insertDownloadLink1(data) {
+        const filePart = data.filePart;
+        for (file of filePart) {
+          const strLink = `<a href='/exam07/download?fileOriginalName=${file.originalname}&flieSaveName=${file.filename}'>${file.originalname}</a><br/>`;
+          $("#downloadDiv").append(strLink);
+        }
+      };
+
+      function insertDownloadLink2(data) {
+        const filePart = data.filePart;
+        for (propName in filePart) {
+          const file = filePart[propName][0];
+          const strLink = `<a href='/exam07/download?fileOriginalName=${file.originalname}&flieSaveName=${file.filename}'>${file.originalname}</a><br/>`;
+          $("#downloadDiv").append(strLink);
+        }
+      };
+    </script>
+  </div>
+</div>
+
+{% include "common/footer.html" %}

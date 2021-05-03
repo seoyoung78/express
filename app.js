@@ -11,6 +11,8 @@ const exam02BindIfFor = require("./routes/exam02-bind-if-for");
 const exam03Include = require("./routes/exam03-include");
 const exam04ExtendsBlock = require("./routes/exam04-extends-block");
 const exam05MiddleWare = require("./routes/exam05-middleware");
+const exam06DataReceive = require("./routes/exam06-data-receive");
+const exam07MultipartFormData = require("./routes/exam07-multipart-form-data");
 
 //.env 파일을 읽어서 process.env에 추가
 dotenv.config();
@@ -44,21 +46,21 @@ app.use(express.static(path.join(__dirname, "public")));
 // });
 
 //모든 요청 경로에 실행되는 미들웨어
-app.use((req, res, next) => {
-    console.log("미들웨어1 전처리");
-    next();
-    console.log("미들웨어1 후처리");
-});
+// app.use((req, res, next) => {
+//     console.log("미들웨어1 전처리");
+//     next();
+//     console.log("미들웨어1 후처리");
+// });
 
-app.use((req, res, next) => {
-    console.log("미들웨어2 전처리");
-    next();
-    console.log("미들웨어2 후처리");
-}, (req, res, next) => {
-    console.log("미들웨어3 전처리");
-    next();
-    console.log("미들웨어3 후처리");
-});
+// app.use((req, res, next) => {
+//     console.log("미들웨어2 전처리");
+//     next();
+//     console.log("미들웨어2 후처리");
+// }, (req, res, next) => {
+//     console.log("미들웨어3 전처리");
+//     next();
+//     console.log("미들웨어3 후처리");
+// });
 
 //로그 출력을 위한 미들웨어 적용
  app.use(morgan("dev"));
@@ -71,12 +73,19 @@ app.use((req, res, next) => {
     next();
 });
 
+//요청 HTTP 본문에 있는 (POST 방식) 데이터를 파싱해서
+//req.body 객체로 만든느 미들웨어
+app.use(express.urlencoded({extended:true}));   //x-www-form-urlencoded: param1=value&param2=vaule2
+app.use(express.json());    //raw/json: {"param1":"value1", "param2":"value2"}
+
 //요청 경로와 라우터 매핑
 app.use("/", exam01Home);
 app.use("/exam02", exam02BindIfFor);
 app.use("/exam03", exam03Include);
 app.use("/exam04", exam04ExtendsBlock);
 app.use("/exam05", exam05MiddleWare);
+app.use("/exam06", exam06DataReceive);
+app.use("/exam07", exam07MultipartFormData);
 
 //404 처리 미들웨어 - 위의 라우터가 실행이 안 됐을 경우
 app.use((req, res, next) => {

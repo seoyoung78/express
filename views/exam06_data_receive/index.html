@@ -1,0 +1,52 @@
+{% include "common/header.html" %}
+
+<div class="card">
+  <div class="card-header">
+    exam06_body_parser
+  </div>
+
+  <div class="card-body">
+    <div class="alert alert-primary">GET 방식</div>
+    <div>
+      <a class="btn btn-info btn-sm" href="/exam06/getQueryString?bno=100&pageNo=10">GET: ?getQueryString?bno=100&pageNo=10</a>
+      <a class="btn btn-info btn-sm" href="/exam06/getPathVariable/200/20">GET: getPathVariable/200/20</a>
+    </div>
+
+    <div class="alert alert-primary mt-3">POST 방식</div>
+    <div>
+      <button class="btn btn-info btn-sm" onclick="handleBtn1()">POST: x-www-form-urlencoded</button>
+      <script>
+        function handleBtn1() {
+          const board = {btitle:"제목1", bcontent:"내용1"};
+          $.ajax({
+            url:"/exam06/postReceive",
+            method:"post",
+            data: board   //btitle=제목1&bcontent=내용1
+          }).done(data => {
+            $("#content").html(data);
+          });
+        }
+      </script>
+      
+      <button class="btn btn-info btn-sm" onclick="handleBtn2()">POST: raw / json</button>
+      <script>
+        function handleBtn2() {
+          const board = {btitle:"제목2", bcontent:"내용2"};
+          $.ajax({
+            url:"/exam06/postReceive",
+            method:"post",
+            contentType: "application/json; charset=UTF-8",  //요청 형식 지정
+            data: JSON.stringify(board)   //JSON문자열 형식으로 바꿈 - {"btitle":"제목2", "bcontent":"내용2"}
+          }).done(data => {
+            $("#content").html(data);
+          });
+        }
+      </script>
+
+      <hr/>
+      <div id="content"></div>
+    </div>
+  </div>
+</div>
+
+{% include "common/footer.html" %}
