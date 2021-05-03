@@ -1,0 +1,16 @@
+{% include "common/header.html" %}
+
+<div class="card">
+    <div class="card-header">
+        error.html
+    </div>
+
+    <div class="card-body">
+        <h6 class="text-info">{{error.message}}</h6>
+        <h6 class="text-info">HTTP 상태코드: <span class="text-danger">{{error.status}}</span></h6>
+        <hr/>
+        <pre>{{error.stack}}</pre>
+    </div>
+</div>
+
+{% include "common/footer.html" %}
