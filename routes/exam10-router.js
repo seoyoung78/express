@@ -10,7 +10,7 @@ for(var i=1; i<=lastBno; i++) {
 
 //------------------------------------------------------------------
 router.get("/boards", (req, res, next) => {
-  boards.sort(function(a, b){return b.bno-a.bno});    //배열 정렬
+  boards.sort(function(a, b){return b.bno-a.bno});    //배열 내림차순 정렬
   res.render("exam10_router/board_list", {boards});
 });
 

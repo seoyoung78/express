@@ -89,7 +89,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));   //비밀키를 받아 쿠키
 
 //세션 설정
 app.use(session({
-    resave: false,      //요청이 올 때마다 세션에 수정 사항이 없더라도 세션 객체를 세션 저장소에 저장
+    resave: false,      //요청이 올 때마다 세션에 수정 사항이 없더라도 세션 객체를 세션 저장소에 저장하는 것을 방지
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
     cookie: {
