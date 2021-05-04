@@ -1,0 +1,27 @@
+{% include "common/header.html" %}
+
+<div class="card">
+  <div class="card-header">
+    exam10_router
+  </div>
+
+  <div class="card-body">
+    <div class="alert alert-primary d-flex justify-content-between">
+      <span>게시물 작성</span>
+    </div>
+    <form method="post" action="/exam10/boards">
+      <div class="form-group">
+          <label>제목:</label>
+          <input class="form-control" name="btitle"/>
+      </div>
+      <div class="form-group">
+          <label>내용:</label>
+          <textarea class="form-control" name="bcontent"></textarea>
+      </div>
+      <button class="btn btn-primary btn-sm">저장</button>   
+      <a class="btn btn-primary btn-sm" href="/exam10/boards">취소</a>  
+    </form>
+  </div>
+</div>
+
+{% include "common/footer.html" %}

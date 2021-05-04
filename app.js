@@ -4,6 +4,8 @@ const path = require("path");
 const nunjucks = require("nunjucks");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 
 //라우터 가져오기
 const exam01Home = require("./routes/exam01-home");
@@ -13,6 +15,9 @@ const exam04ExtendsBlock = require("./routes/exam04-extends-block");
 const exam05MiddleWare = require("./routes/exam05-middleware");
 const exam06DataReceive = require("./routes/exam06-data-receive");
 const exam07MultipartFormData = require("./routes/exam07-multipart-form-data");
+const exam08Cookie = require("./routes/exam08-cookie");
+const exam09Session = require("./routes/exam09-session");
+const exam10Router = require("./routes/exam10-router");
 
 //.env 파일을 읽어서 process.env에 추가
 dotenv.config();
@@ -63,8 +68,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // });
 
 //로그 출력을 위한 미들웨어 적용
- app.use(morgan("dev"));
-// app.use(morgan("combined"));
+//app.use(morgan("dev"));
+//app.use(morgan("combined"));
 //app.use(morgan(":method :url :remote-addr :status :res[content-length]"));
 
 //브라우저 캐싱 금지 미들웨어 적용
@@ -74,9 +79,31 @@ app.use((req, res, next) => {
 });
 
 //요청 HTTP 본문에 있는 (POST 방식) 데이터를 파싱해서
-//req.body 객체로 만든느 미들웨어
+//req.body 객체로 만드는 미들웨어
 app.use(express.urlencoded({extended:true}));   //x-www-form-urlencoded: param1=value&param2=vaule2
 app.use(express.json());    //raw/json: {"param1":"value1", "param2":"value2"}
+
+//요청 HTTP 헤더에 있는 쿠키를 파싱해서
+//req.cookies 또는 req.singnedCookies 객체로 생성하는 미들웨어 적용
+app.use(cookieParser(process.env.COOKIE_SECRET));   //비밀키를 받아 쿠키 생성 및 파싱 시 암호화
+
+//세션 설정
+app.use(session({
+    resave: false,      //요청이 올 때마다 세션에 수정 사항이 없더라도 세션 객체를 세션 저장소에 저장
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+        httpOnly: true,
+        secure: false,
+        maxAge: 1000*60*30
+    }
+}));
+
+//모든 템플릿(뷰 - .html)에서 바인딩할 수 있는 데이터를 설정하는 미들웨어 적용
+app.use((req, res, next) => {
+    res.locals.uid = req.session.uid || null;
+    next();
+});
 
 //요청 경로와 라우터 매핑
 app.use("/", exam01Home);
@@ -86,6 +113,9 @@ app.use("/exam04", exam04ExtendsBlock);
 app.use("/exam05", exam05MiddleWare);
 app.use("/exam06", exam06DataReceive);
 app.use("/exam07", exam07MultipartFormData);
+app.use("/exam08", exam08Cookie);
+app.use("/exam09", exam09Session);
+app.use("/exam10", exam10Router);
 
 //404 처리 미들웨어 - 위의 라우터가 실행이 안 됐을 경우
 app.use((req, res, next) => {

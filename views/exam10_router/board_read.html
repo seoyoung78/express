@@ -1,0 +1,51 @@
+{% include "common/header.html" %}
+
+<div class="card">
+  <div class="card-header">
+    exam10_router
+  </div>
+
+  <div class="card-body">
+    <div class="alert alert-primary d-flex justify-content-between">
+      <span>게시물 보기</span>
+    </div>
+    <div>
+      <div class="form-group">
+        <label>번호:</label>
+        <input class="form-control" id="bno" name="bno" value="{{board.bno}}" readonly/>
+      </div>
+      <div class="form-group">
+        <label>제목:</label>
+        <input class="form-control" name="btitle" value="{{board.btitle}}" readonly/>
+      </div>      
+      <div class="form-group">
+        <label>내용:</label>
+        <textarea class="form-control" name="bcontent" readonly>{{board.bcontent}}</textarea>
+      </div>
+      <div class="form-group">
+        <label>글쓴이:</label>
+        <input class="form-control" name="bwriter" value="{{board.bwriter}}" readonly/>
+      </div>      
+      <div class="form-group">
+        <label>날짜:</label>
+        <input class="form-control" name="bdate" value="{{board.bdate.toLocaleDateString()}}" readonly/>
+      </div>       
+      <a class="btn btn-primary btn-sm" href="/exam10/boards">목록</a>  
+      <a class="btn btn-primary btn-sm" href="/exam10/boards/{{board.bno}}/update">수정</a> 
+      <a class="btn btn-primary btn-sm" href="javascript:deleteBoard({{board.bno}})">삭제</a> 
+    </div>
+  </div>
+</div>
+
+<script>
+  function deleteBoard(bno) {
+    $.ajax({
+      url: "/exam10/boards/" + bno,
+      method: "delete"
+    }).done((data) => {
+      location.href = "/exam10/boards";
+    });
+  }
+</script>
+
+{% include "common/footer.html" %}

@@ -117,21 +117,38 @@
         });
       };
 
+      // function insertDownloadLink1(data) {
+      //   const filePart = data.filePart;
+      //   for (file of filePart) {
+      //     const strLink = `<a href='/exam07/download?fileOriginalName=${file.originalname}&flieSaveName=${file.filename}'>${file.originalname}</a><br/>`;
+      //     $("#downloadDiv").append(strLink);
+      //   }
+      // };
+
+      // function insertDownloadLink2(data) {
+      //   const filePart = data.filePart;
+      //   for (propName in filePart) {
+      //     const file = filePart[propName][0];
+      //     const strLink = `<a href='/exam07/download?fileOriginalName=${file.originalname}&flieSaveName=${file.filename}'>${file.originalname}</a><br/>`;
+      //     $("#downloadDiv").append(strLink);
+      //   }
+
       function insertDownloadLink1(data) {
         const filePart = data.filePart;
-        for (file of filePart) {
-          const strLink = `<a href='/exam07/download?fileOriginalName=${file.originalname}&flieSaveName=${file.filename}'>${file.originalname}</a><br/>`;
-          $("#downloadDiv").append(strLink);
+        for(file of filePart) {  //배열
+          const strLink = `<a href='/exam07/download?fileOriginalName=${file.origianlname}&fileSaveName=${file.filename}'>${file.originalname}</a><br/>`;
+          $("#downloadDiv").append(strLink); //계속 누적
         }
-      };
+      }
 
       function insertDownloadLink2(data) {
         const filePart = data.filePart;
-        for (propName in filePart) {
+        for(prop in filePart) {  //객체
           const file = filePart[propName][0];
-          const strLink = `<a href='/exam07/download?fileOriginalName=${file.originalname}&flieSaveName=${file.filename}'>${file.originalname}</a><br/>`;
-          $("#downloadDiv").append(strLink);
+          const strLink = `<a href='/exam07/download?fileOriginalName=${file.origianlname}&fileSaveName=${file.filename}'>${file.originalname}</a><br/>`;
+          $("#downloadDiv").append(strLink); //계속 누적
         }
+
       };
     </script>
   </div>

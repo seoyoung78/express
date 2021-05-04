@@ -1,0 +1,39 @@
+{% include "common/header.html" %}
+
+<div class="card">
+  <div class="card-header">
+    exam10_router
+  </div>
+
+  <div class="card-body">
+    <div class="alert alert-primary d-flex justify-content-between">
+      <span>게시물 목록</span>
+      <a class="btn btn-success btn-sm" href="/exam10/boards/create">글쓰기</a>
+    </div>
+    <table class="table mt-2">
+      <thead>
+        <tr>
+          <th>bno</th>
+          <th>btitle</th>
+          <th>bcontent</th>
+          <th>bwriter</th>
+          <th>bdate</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for board in boards %}
+          <tr>
+            <td>{{board.bno}}</td>
+            <td><a href="/exam10/boards/{{board.bno}}">{{board.btitle}}</a></td>
+            <td>{{board.bcontent}}</td>
+            <td>{{board.bwriter}}</td>
+            <td>{{board.bdate.toLocaleDateString()}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% include "common/footer.html" %}
+

@@ -39,14 +39,16 @@ router.post("/upload5", multipartFormData.fields([{name: "battach1"}, {name: "ba
   res.json(result);
 });
 
+// router.get("/download", (req, res, next) => {
+//   const fileOrigianlName = req.query.fileOriginalName;
+//   const fileSavePath = process.env.UPLOAD_PATH + req.query.flieSaveName;
+//   res.download(fileSavePath, fileOrigianlName);
+// });
+
 router.get("/download", (req, res, next) => {
-  const fileOrigianlName = req.query.fileOriginalName;
-  const fileSavePath = process.env.UPLOAD_PATH + req.query.flieSaveName;
-  console.log(process.env.UPLOAD_PATH);
-  console.log(req.query.flieSaveName);
-  console.log(fileOrigianlName);
-  console.log(fileSavePath);
-  res.download(fileSavePath, fileOrigianlName);
+  const fileOriginalName = req.query.fileOrigianlName;
+  const fileSavePath = process.env.UPLOAD_PATH + req.query.fileSaveName;
+  res.download(fileSavePath, fileOriginalName);
 });
 
 module.exports = router;

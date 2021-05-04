@@ -19,7 +19,12 @@
       </a>
       <div>
         <div>
-          <a class="btn btn-success btn-sm" href="#">로그인</a>
+          {% if uid == null %}
+            <a class="btn btn-success btn-sm" href="/exam09">로그인</a>
+          {% else %}
+            UID: {{uid}}
+            <a class="btn btn-success" href="/exam09/logout">로그아웃</a>
+          {% endif %}
         </div>
       </div>
     </nav>

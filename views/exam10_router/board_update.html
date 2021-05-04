@@ -1,0 +1,47 @@
+{% include "common/header.html" %}
+
+<div class="card">
+  <div class="card-header">
+    exam10_router
+  </div>
+
+  <div class="card-body">
+    <div class="alert alert-primary d-flex justify-content-between">
+      <span>게시물 보기</span>
+    </div>
+    <div>
+      <div>
+        <input type="hidden" id="bno" name="bno" value="{{board.bno}}"/>
+        <div class="form-group">
+          <label>제목:</label>
+          <input class="form-control" id="btitle" name="btitle" value="{{board.btitle}}"/>
+        </div>      
+        <div class="form-group">
+          <label>내용:</label>
+          <textarea class="form-control" id="bcontent" name="bcontent">{{board.bcontent}}</textarea>
+        </div>         
+        <button class="btn btn-primary btn-sm" onclick="updateBoard()">수정</button> 
+        <a class="btn btn-primary btn-sm" href="/exam10/boards">취소</a> 
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateBoard() {
+    const board = {
+      bno: $("#bno").val(), 
+      btitle:$("#btitle").val(), 
+      bcontent:$("#bcontent").val()
+    }
+    $.ajax({
+      url: "/exam10/boards",
+      method: "put",
+      data: board
+    }).done((data) => {
+      location.href = "/exam10/boards";
+    });
+  }
+</script>
+
+{% include "common/footer.html" %}
