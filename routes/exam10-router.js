@@ -10,7 +10,7 @@ for(var i=1; i<=lastBno; i++) {
 
 //------------------------------------------------------------------
 router.get("/boards", (req, res, next) => {
-  boards.sort(function(a, b){return b.bno-a.bno});
+  boards.sort(function(a, b){return b.bno-a.bno});    //배열 정렬
   res.render("exam10_router/board_list", {boards});
 });
 
@@ -70,7 +70,7 @@ router.put("/boards", (req, res, next) => {
 //------------------------------------------------------------------
 router.delete("/boards/:bno", (req, res, next) => {
   const bno = req.params.bno;
-  boards = boards.filter(board => {
+  boards = boards.filter(board => {   //배열의 삭제 filter 사용
     return board.bno !== parseInt(bno)
   });
   res.json({result:"success"});
