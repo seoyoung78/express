@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const {sequelize} = require("./sequelize/models/index");
 
 //라우터 가져오기
 const exam01Home = require("./routes/exam01-home");
@@ -18,6 +19,7 @@ const exam07MultipartFormData = require("./routes/exam07-multipart-form-data");
 const exam08Cookie = require("./routes/exam08-cookie");
 const exam09Session = require("./routes/exam09-session");
 const exam10Router = require("./routes/exam10-router");
+const exam11Sequelize = require("./routes/exam11-sequelize");
 
 //.env 파일을 읽어서 process.env에 추가
 dotenv.config();
@@ -35,6 +37,15 @@ nunjucks.configure("views", {
     express: app,
     watch: true     //소스가 변경되는 것을 감시한 후 리랜더링
 });
+
+//sequelize 데이터 연결과 동시에 모델과 테이블을 매칭(동기화)
+sequelize.sync()
+    .then(() => {
+        console.log("DB 연결 성공");
+    })
+    .catch((err) => {
+        console.log("DB 연결 실패: ", err.message);
+    });
 
 //정적 파일들을 제공하는 폴더 지정
 //app.use(express.static(__dirname + "/public"));
@@ -116,6 +127,7 @@ app.use("/exam07", exam07MultipartFormData);
 app.use("/exam08", exam08Cookie);
 app.use("/exam09", exam09Session);
 app.use("/exam10", exam10Router);
+app.use("/exam11", exam11Sequelize);
 
 //404 처리 미들웨어 - 위의 라우터가 실행이 안 됐을 경우
 app.use((req, res, next) => {

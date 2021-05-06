@@ -1,0 +1,35 @@
+{
+  "development": {
+    "username": "blueskii",
+    "password": "12345",
+    "database": "blueskii",
+    "host": "106.253.56.122",
+    "dialect": "mysql",
+    "pool": {
+      "max": 3,
+      "min": 1
+    }
+  },
+  "test": {
+    "username": "blueskii",
+    "password": "12345",
+    "database": "blueskii",
+    "host": "106.253.56.122",
+    "dialect": "mysql",
+    "pool": {
+      "max": 3,
+      "min": 1
+    }
+  },
+  "production": {
+    "username": "blueskii",
+    "password": "12345",
+    "database": "blueskii",
+    "host": "106.253.56.122",
+    "dialect": "mysql",
+    "pool": {
+      "max": 3,
+      "min": 1
+    }
+  }
+}
