@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   //모델 클래스 선언
   class User extends Model {
     static associate(models) {
-
+      models.User.hasMany(models.Board, {foreignKey:"bwriter", sourceKey:"userid"});
     }
   }
   //DB 칼럼 데이터 타입에 맞게 모델의 속성 정의
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       primaryKey: true
     },
-    usernaem: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false
     },

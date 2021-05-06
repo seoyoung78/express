@@ -1,12 +1,232 @@
 {% include "common/header.html" %}
 
 <div class="card">
-    <div class="card-header">
-        exam11_sequelize
+  <div class="card-header">
+    exam11_sequelize
+  </div>
+  <div class="card-body">
+    <div class="alert alert-primary">SELECT</div>
+    <div class="d-flex align-items-center">
+      <div>페이지:<input type="number" id="pageNo1" value="1" style="width:50px"/></div>
+      <button class="btn btn-info btn-sm ml-2" onclick="handleBtn1()">전체 목록</button>
+      <script>
+        function handleBtn1() {
+        //http://localhost:8080/exam11/path1?pageNo=1
+          $.ajax({
+            url: "/exam11/path1",
+            method: "get",
+            data: {pageNo:$("#pageNo1").val()}
+          }).done((result) => {
+            console.log(result);
+          });
+        }
+      </script>
     </div>
+    <hr/>
+    <div class="d-flex align-items-center">
+      <div class="mr-2">키워드:<input type="text" id="keyword" style="width:100px"/></div>
+      <div class="mr-2">컬럼:
+        <select id="column" style="width:100px">
+          <option value="btitle" selected>제목</option>
+          <option value="btitlebcontent">제목+내용</option>
+        </select>
+      </div>
+      <div class="mr-2">페이지:<input type="number" id="pageNo2" value="1" style="width:50px"/></div>
+      <button class="btn btn-info btn-sm" onclick="handleBtn2()">검색어 목록</button>
+      <script>
+        function handleBtn2() {
+          $.ajax({
+            url: "/exam11/path2",
+            method: "get",
+            data: {
+              keyword: $("#keyword").val(), 
+              column: $("#column").val(),
+              pageNo:$("#pageNo2").val()
+            }
+          }).done((result) => {
+            console.log(result);
+          });
+        }
+      </script>
+    </div>
+    <hr/> 
+    <div class="d-flex align-items-center">
+      <div class="mr-2">시작번호:<input type="number" id="startBno" value="1" style="width:50px"/></div>
+      <div class="mr-2">끝번호:<input type="number" id="endBno" value="5" style="width:50px"/></div>
+      <button class="btn btn-info btn-sm" onclick="handleBtn3()">범위 목록</button>
+      <script>
+        function handleBtn3() {
+          $.ajax({
+            url: "/exam11/path3",
+            method: "get",
+            data: {
+              startBno: $("#startBno").val(), 
+              endBno: $("#endBno").val()
+            }
+          }).done((result) => {
+            console.log(result);
+          });
+        }
+      </script>
+    </div>
+    <hr/>    
+    <div class="d-flex align-items-center">
+      <div class="mr-2">번호:<input type="number" id="bno4" value="1" style="width:50px"/></div>
+      <button class="btn btn-info btn-sm" onclick="handleBtn4()">게시물</button>
+      <script>
+        function handleBtn4() {
+          $.ajax({
+            url: "/exam11/path4",
+            method: "get",
+            data: {
+              bno: $("#bno4").val()
+            }
+          }).done((result) => {
+            console.log(result);
+          });
+        }
+      </script>
+    </div> 
+    <!--#####################################################################################-->   
+    <div class="alert alert-primary mt-3">INSERT</div>
+    <div class="d-flex align-items-center">
+      <div class="mr-2">제목:<input type="text" id="btitle5" style="width:150px"/></div>
+      <div class="mr-2">내용:<input type="text" id="bcontent5" style="width:150px"/></div>
+      <button class="btn btn-info btn-sm" onclick="handleBtn5()">저장</button>
+      <script>
+        function handleBtn5() {
+          $.ajax({
+            url: "/exam11/path5",
+            method: "post",
+            data: {
+              btitle: $("#btitle5").val(), 
+              bcontent: $("#bcontent5").val()
+            }
+          }).done((result) => {
+            console.log(result);
+          });
+        }
+      </script>
+    </div> 
+    <!--#####################################################################################-->
+    <div class="alert alert-primary mt-3">UPDATE</div>
+    <div class="d-flex align-items-center">
+      <div class="mr-2">번호:<input type="number" id="bno6" value="1" style="width:50px"/></div>
+      <div class="mr-2">제목:<input type="text" id="btitle6" style="width:150px"/></div>
+      <div class="mr-2">내용:<input type="text" id="bcontent6" style="width:150px"/></div>
+      <button class="btn btn-info btn-sm" onclick="handleBtn6()">수정</button>
+      <script>
+        function handleBtn6() {
+          $.ajax({
+            url: "/exam11/path6",
+            method: "put",
+            data: {
+              bno: $("#bno6").val(), 
+              btitle: $("#btitle6").val(), 
+              bcontent: $("#bcontent6").val()
+            }
+          }).done((result) => {
+            console.log(result);
+          });
+        }
+      </script>
+    </div>     
 
-    <div class="card-body">        
+    <!--#####################################################################################-->   
+    <div class="alert alert-primary mt-3">DELETE</div>
+    <div class="d-flex align-items-center">
+      <div class="mr-2">번호:<input type="number" id="bno7" style="width:100px"/></div>
+      <button class="btn btn-info btn-sm" onclick="handleBtn7()">삭제</button>
+      <script>
+        function handleBtn7() {
+          $.ajax({
+            url: "/exam11/path7",
+            method: "delete",
+            data: {
+              bno: $("#bno7").val()
+            }
+          }).done((result) => {
+            console.log(result);
+          });
+        }
+      </script>
+    </div> 
+    <!--#####################################################################################-->
+    <div class="alert alert-primary mt-3">ASSOCIATE</div>
+    <div class="d-flex align-items-center">
+      <div class="mr-2">아이디:<input type="text" id="userid8" value="user1" style="width:100px"/></div>
+      <button class="btn btn-info btn-sm" onclick="handleBtn8()">사용자를 통한 게시물 정보 가져오기</button>
+      <script>
+        function handleBtn8() {
+          $.ajax({
+            url: "/exam11/path8",
+            method: "get",
+            data: {
+              userid: $("#userid8").val()
+            }
+          }).done((result) => {
+            console.log(result);
+          });
+        }
+      </script>
+    </div>  
+    <hr/>    
+    <div class="d-flex align-items-center">
+      <div class="mr-2">번호:<input type="number" id="bno9" value="1" style="width:50px"/></div>
+      <button class="btn btn-info btn-sm" onclick="handleBtn9()">게시물을 통한 사용자 정보 가져오기</button>
+      <script>
+        function handleBtn9() {
+          $.ajax({
+            url: "/exam11/path9",
+            method: "get",
+            data: {
+              bno: $("#bno9").val()
+            }
+          }).done((result) => {
+            console.log(result);
+          });
+        }
+      </script>
     </div>
+    <hr/>
+    <div class="d-flex align-items-center">
+      <div class="mr-2">아이디:<input type="text" id="userid10" value="user3" style="width:100px"/></div>
+      <div class="mr-2">제목:<input type="text" id="btitle10" style="width:150px"/></div>
+      <div class="mr-2">내용:<input type="text" id="bcontent10" style="width:150px"/></div>      
+      <button class="btn btn-info btn-sm" onclick="handleBtn10()">사용자를 통한 게시물 생성</button>
+      <script>
+        function handleBtn10() {
+          $.ajax({
+            url: "/exam11/path10",
+            method: "post",
+            data: {
+              userid: $("#userid10").val(),
+              btitle: $("#btitle10").val(),
+              bcontent: $("#bcontent10").val()
+            }
+          }).done((result) => {
+            console.log(result);
+          });
+        }
+      </script>
+    </div>   
+    <hr/>
+    <div class="d-flex align-items-center">  
+      <div class="mr-2">아이디:<input type="text" id="userid11" value="user1" style="width:100px"/></div>
+      <button class="btn btn-info btn-sm" onclick="handleBtn11()">주문 정보 가져오기</button>
+      <script>
+        function handleBtn11() {
+          $.ajax({
+            url: "/exam11/path11",
+            method: "get",
+            data: {userid:$("#userid11").val()}
+          }).done((result) => {
+            console.log(result);
+          });
+        }
+      </script>
+    </div>         
+  </div>
 </div>
 
 {% include "common/footer.html" %}
