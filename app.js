@@ -20,6 +20,7 @@ const exam08Cookie = require("./routes/exam08-cookie");
 const exam09Session = require("./routes/exam09-session");
 const exam10Router = require("./routes/exam10-router");
 const exam11Sequelize = require("./routes/exam11-sequelize");
+const exam12Auth = require("./routes/exam12-auth");
 
 //.env 파일을 읽어서 process.env에 추가
 dotenv.config();
@@ -128,6 +129,7 @@ app.use("/exam08", exam08Cookie);
 app.use("/exam09", exam09Session);
 app.use("/exam10", exam10Router);
 app.use("/exam11", exam11Sequelize);
+app.use("/exam12", exam12Auth);
 
 //404 처리 미들웨어 - 위의 라우터가 실행이 안 됐을 경우
 app.use((req, res, next) => {

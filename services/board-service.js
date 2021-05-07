@@ -137,7 +137,6 @@ module.exports = {
       //     }
       //   }]
       // });
-      // return user;
 
       //방법2
       const user = await db.User.findOne({
@@ -147,6 +146,50 @@ module.exports = {
         where: {
           bno: {[Op.lte]: 5}
         }
+      });
+
+      return user;
+    } catch(error) {
+      throw error;
+    }
+  },
+
+  getBoardAndUser: async function(bno) {
+    try {
+      //방법1
+      // const board = await db.Board.findOne({
+      //   where: {bno},
+      //   include: [
+      //     {model: db.User, attributes: ["userid", "username", "userauthority"]}
+      //   ]
+      // });
+
+      //방법2
+      const board = await db.Board.findOne({where: {bno}});
+      board.dataValues.User = await board.getUser({
+          attributes: ["userid", "username", "userauthority"]
+      });
+
+      return board;
+    } catch(error) {
+      throw error;
+    }
+  },
+
+  getUserWithOrderIfno: async function (userid) {
+    try {
+      const user = await db.User.findOne({
+        attributes: ["userid", "username", "userauthority"],
+        where: {userid},
+        include: [{
+          model: db.Order,
+          include: [{
+            model: db.OrderItem,
+            include: [{
+              model: db.Product
+            }]
+          }]
+        }]
       });
       return user;
     } catch(error) {

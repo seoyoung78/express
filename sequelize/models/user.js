@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       models.User.hasMany(models.Board, {foreignKey:"bwriter", sourceKey:"userid"});
+      models.User.hasMany(models.Order, {foreignKey:"userid", sourceKey:"userid"});
     }
   }
   //DB 칼럼 데이터 타입에 맞게 모델의 속성 정의

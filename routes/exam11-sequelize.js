@@ -108,5 +108,25 @@ router.get("/path8", async (req, res, next) => {
   }
 });
 
+router.get("/path9", async (req, res, next) => {
+  try {
+    const bno = parseInt(req.query.bno);
+    const board = await boardService.getBoardAndUser(bno);
+    res.json(board);
+  } catch(error) {
+    next(error);
+  }
+});
+
+router.get("/path10", async (req, res, next) => {
+  try{
+    const userid = req.query.userid;
+    const user = await boardService.getUserWithOrderIfno(userid);
+    res.json(user);
+  } catch(error) {
+    next(error);
+  }
+});
+
 //모든 라우터는 모듈로 만들어야 함
 module.exports = router;

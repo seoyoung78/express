@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "blueskii",
+    "username": "user",
     "password": "12345",
-    "database": "blueskii",
-    "host": "106.253.56.122",
+    "database": "user",
+    "host": "localhost",
     "dialect": "mysql",
     "pool": {
       "max": 3,

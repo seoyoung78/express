@@ -189,37 +189,15 @@
       </script>
     </div>
     <hr/>
-    <div class="d-flex align-items-center">
-      <div class="mr-2">아이디:<input type="text" id="userid10" value="user3" style="width:100px"/></div>
-      <div class="mr-2">제목:<input type="text" id="btitle10" style="width:150px"/></div>
-      <div class="mr-2">내용:<input type="text" id="bcontent10" style="width:150px"/></div>      
-      <button class="btn btn-info btn-sm" onclick="handleBtn10()">사용자를 통한 게시물 생성</button>
+    <div class="d-flex align-items-center">  
+      <div class="mr-2">아이디:<input type="text" id="userid10" value="user1" style="width:100px"/></div>
+      <button class="btn btn-info btn-sm" onclick="handleBtn10()">사용자를 통한 주문 정보 가져오기</button>
       <script>
         function handleBtn10() {
           $.ajax({
             url: "/exam11/path10",
-            method: "post",
-            data: {
-              userid: $("#userid10").val(),
-              btitle: $("#btitle10").val(),
-              bcontent: $("#bcontent10").val()
-            }
-          }).done((result) => {
-            console.log(result);
-          });
-        }
-      </script>
-    </div>   
-    <hr/>
-    <div class="d-flex align-items-center">  
-      <div class="mr-2">아이디:<input type="text" id="userid11" value="user1" style="width:100px"/></div>
-      <button class="btn btn-info btn-sm" onclick="handleBtn11()">주문 정보 가져오기</button>
-      <script>
-        function handleBtn11() {
-          $.ajax({
-            url: "/exam11/path11",
             method: "get",
-            data: {userid:$("#userid11").val()}
+            data: {userid:$("#userid10").val()}
           }).done((result) => {
             console.log(result);
           });

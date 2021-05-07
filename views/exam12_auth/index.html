@@ -1,0 +1,17 @@
+{% include "common/header.html" %}
+
+<div class="card">
+  <div class="card-header">
+    exam12_auth
+  </div>
+  <div class="card-body">
+    {% if userid == null %}
+      <a class="btn btn-info" href="/exam12/loginForm">로그인</a>
+      <a class="btn btn-info" href="/exam12/joinForm">회원가입</a>
+    {% else %}
+      <a class="btn btn-success" href="/exam12/logout">로그아웃</a>
+    {% endif %}
+  </div>
+</div>
+
+{% include "common/footer.html" %}

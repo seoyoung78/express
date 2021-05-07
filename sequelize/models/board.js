@@ -1,6 +1,6 @@
 const {Model, Sequelize} = require("sequelize");
 
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {    //함수 형태로 저장
   //모델 클래스 선언
   class Board extends Model {
     static associate(models) {
