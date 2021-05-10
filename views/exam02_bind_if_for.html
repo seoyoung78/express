@@ -7,7 +7,8 @@
 
     <div class="card-body">     
         <!-- 단일값 바인딩 -->
-        <div>사용자: {{userId}}</div>
+        <div>사용자 아이디: {{userId}}</div>
+        <div>사용자 이름: {{userName or "홍길동"}}</div>
 
         <!-- 객체 바인딩 -->
         <table class="table mt-3">
@@ -42,7 +43,7 @@
         <div class="mt-3">
             {% for b in boards %}      
                 {% if loop.first %}   
-                <span>게비물 수: {{loop.length}}</span>  
+                <span>게시물 수: {{loop.length}}</span>  
                 <table class="table mt-3">
                     <thead>
                         <tr>

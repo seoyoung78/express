@@ -19,11 +19,21 @@
       </a>
       <div>
         <div>
+          {# ### exam09를 실행할 때 주석 해제 ### #}
+          {#
           {% if uid == null %}
             <a class="btn btn-success btn-sm" href="/exam09">로그인</a>
           {% else %}
             UID: {{uid}}
             <a class="btn btn-success" href="/exam09/logout">로그아웃</a>
+          {% endif %} 
+          #}
+          {# exam12를 실행할 때 주석 해제 #}
+          {% if userid == null %}
+            <a class="btn btn-success btn-sm" href="/exam12/loginForm">로그인</a>
+          {% else %}
+            UID: {{userid}}
+            <a class="btn btn-success" href="/exam12/logout">로그아웃</a>
           {% endif %}
         </div>
       </div>

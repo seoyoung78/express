@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const {sequelize} = require("./sequelize/models/index");
+const sessionAuth = require("./security/sessionAuth");
 
 //라우터 가져오기
 const exam01Home = require("./routes/exam01-home");
@@ -99,7 +100,7 @@ app.use(express.json());    //raw/json: {"param1":"value1", "param2":"value2"}
 //req.cookies 또는 req.singnedCookies 객체로 생성하는 미들웨어 적용
 app.use(cookieParser(process.env.COOKIE_SECRET));   //비밀키를 받아 쿠키 생성 및 파싱 시 암호화
 
-//세션 설정
+//세션 설정 - JWT 인증 시 불필요
 app.use(session({
     resave: false,      //요청이 올 때마다 세션에 수정 사항이 없더라도 세션 객체를 세션 저장소에 저장하는 것을 방지
     saveUninitialized: false,
@@ -114,6 +115,8 @@ app.use(session({
 //모든 템플릿(뷰 - .html)에서 바인딩할 수 있는 데이터를 설정하는 미들웨어 적용
 app.use((req, res, next) => {
     res.locals.uid = req.session.uid || null;
+    sessionAuth.setAuth(req, res);
+    //req.locals.userid = req.session.userid || null;
     next();
 });
 
@@ -128,7 +131,7 @@ app.use("/exam07", exam07MultipartFormData);
 app.use("/exam08", exam08Cookie);
 app.use("/exam09", exam09Session);
 app.use("/exam10", exam10Router);
-app.use("/exam11", exam11Sequelize);
+app.use("/exam11", sessionAuth.checkAuth, exam11Sequelize);
 app.use("/exam12", exam12Auth);
 
 //404 처리 미들웨어 - 위의 라우터가 실행이 안 됐을 경우
