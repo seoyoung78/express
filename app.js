@@ -8,6 +8,8 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const {sequelize} = require("./sequelize/models/index");
 const sessionAuth = require("./security/sessionAuth");
+const jwtAuth = require("./security/jwtAuth");
+const cors = require("cors");
 
 //라우터 가져오기
 const exam01Home = require("./routes/exam01-home");
@@ -22,6 +24,7 @@ const exam09Session = require("./routes/exam09-session");
 const exam10Router = require("./routes/exam10-router");
 const exam11Sequelize = require("./routes/exam11-sequelize");
 const exam12Auth = require("./routes/exam12-auth");
+const exam13Cors = require("./routes/exam13-cors");
 
 //.env 파일을 읽어서 process.env에 추가
 dotenv.config();
@@ -48,6 +51,23 @@ sequelize.sync()
     .catch((err) => {
         console.log("DB 연결 실패: ", err.message);
     });
+
+//Cors 설정
+//직접 설정
+// app.use((req, res, next) => {
+//     res.set("Access-Control-Allow-Origin", "*"); //헤더 설정
+//     res.set("Access-Control-Allow-Credentials", "false");   //JWT 쿠키 인증 시 true로 사용 - 구체적 설정 필요
+//     res.set("Access-Control-Allow-Headers", "*");   //특정 헤더에 담에 전송할 경우
+//     res.set("Access-Control-Allow-Methods", "*");   //특정 방식을 설정할 경우 - GET, POST는 기본
+//     next();
+// })
+//패키지 이용
+app.use(cors({
+    origin: "*",
+    allowedHeaders: "*",
+    methods: "*",
+    credentials: false
+}));
 
 //정적 파일들을 제공하는 폴더 지정
 //app.use(express.static(__dirname + "/public"));
@@ -115,8 +135,13 @@ app.use(session({
 //모든 템플릿(뷰 - .html)에서 바인딩할 수 있는 데이터를 설정하는 미들웨어 적용
 app.use((req, res, next) => {
     res.locals.uid = req.session.uid || null;
-    sessionAuth.setAuth(req, res);
+    //세션 인증일 경우
+    //sessionAuth.setAuth(req, res);
     //req.locals.userid = req.session.userid || null;
+    
+    //JWT 인증일 경우
+    jwtAuth.setAuth(req, res);
+
     next();
 });
 
@@ -131,8 +156,9 @@ app.use("/exam07", exam07MultipartFormData);
 app.use("/exam08", exam08Cookie);
 app.use("/exam09", exam09Session);
 app.use("/exam10", exam10Router);
-app.use("/exam11", sessionAuth.checkAuth, exam11Sequelize);
+app.use("/exam11", jwtAuth.checkAuth, exam11Sequelize);
 app.use("/exam12", exam12Auth);
+app.use("/exam13", exam13Cors);
 
 //404 처리 미들웨어 - 위의 라우터가 실행이 안 됐을 경우
 app.use((req, res, next) => {

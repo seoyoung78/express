@@ -1,0 +1,33 @@
+{% include "common/header.html" %}
+
+<div class="card">
+    <div class="card-header">
+        exam13_cors
+    </div>
+
+    <div class="card-body">       
+      <button class="btn btn-sm btn-info" onclick="handleBtn1()">게시물 목록 요청</button>
+      <script>
+        function handleBtn1() {
+          $.ajax({
+            url: "http://localhost:8080/exam13/boardlist",
+            method: "get",
+            
+            //인증 쿠키를 전송할 경우
+            // xhrFields: {
+            //   withCredentials: true
+            // }
+            
+            //인증 헤더를 보낼 경우 - 헤더에 추가 하여 전송
+            headers: {
+              authToken: sessionStorage.getItem("authToken")
+            }
+          }).done(data => {
+            console.log(data);
+          });
+        }
+      </script>
+    </div>
+</div>
+
+{% include "common/footer.html" %}

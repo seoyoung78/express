@@ -1,6 +1,7 @@
 const express = require("express");
 const userService = require("../services/user-service");
 const sessionAuth = require("../security/sessionAuth");
+const jwtAuth = require("../security/jwtAuth");
 
 const router = express.Router();
 
@@ -43,8 +44,23 @@ router.post("/login", async (req, res, next) => {
       req.session.loginError = result;
       res.redirect("/exam12/loginForm");
     } else {
+      //세션 인증일 경우
       sessionAuth.setAuth(req, res, user.userid);
-      res.redirect("/");
+      
+      //JWT 인증일 경우
+      const authToken = jwtAuth.createJwt(user.userid);
+      
+      //쿠키로 보냄
+      res.cookie("authToken", authToken, {
+        domain: "localhost",
+        path: "/",
+        expires: new Date(Date.now() + 1000*60*30),
+        signed: true,
+        httpOnly: true,
+        secure: false
+      });
+
+      res.redirect("/exam12");
     }
   } catch(error) {
     next(error);
@@ -52,8 +68,35 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.get("/logout", (req, res, next) => {
+  //세션 인증일 경우
   sessionAuth.removeAuth(req);
-  res.redirect("/exam12/loginForm");
+
+  //JWT 인증일 경우
+  res.clearCookie("authToken");
+
+  res.redirect("/exam12");
+});
+
+router.post("/login2", async (req, res, next) => {
+  try {
+    const user = req.body;
+    const result = await userService.login(user);
+    if (result.id !== "success") {
+      req.session.loginError = result;
+      res.redirect("/exam12/loginForm");
+    } else {
+      //세션 인증일 경우
+      // sessionAuth.setAuth(req, res, user.userid);
+      
+      //JWT 인증일 경우 - 헤더로 보냄
+      const authToken = jwtAuth.createJwt(user.userid);
+      
+      //정상 응답으로 보냄
+      res.json({userid:user.userid, authToken});
+    }
+  } catch(error) {
+    next(error);
+  }
 });
 
 module.exports = router;

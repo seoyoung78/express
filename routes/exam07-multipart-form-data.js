@@ -1,5 +1,6 @@
 const express = require("express");
 const multipartFormData = require("../utils/multipart-form-data");
+const jwtAuth = require("../security/jwtAuth");
 
 const router = express.Router();
 

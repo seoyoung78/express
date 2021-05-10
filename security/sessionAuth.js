@@ -11,7 +11,7 @@ const sessionAuth = {
     res.locals.userid = req.session.userid || null;
   },
   checkAuth: function(req, res, next) {
-    if(req.session.userid) {
+    if(req.userid) {
       next();
     } else {
       //MPA 일 경우
